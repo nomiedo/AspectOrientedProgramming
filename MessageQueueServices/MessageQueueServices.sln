@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceHelper", "ServiceHel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchServer", "ArchServer\ArchServer.csproj", "{A1466B17-A5BB-4F75-B446-6657C222A874}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOPDynamicProxy", "AOPDynamicProxy\AOPDynamicProxy.csproj", "{20A878E3-0E42-4400-82AE-01DAC0A9B3D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOPCodeRewriting", "AOPCodeRewriting\AOPCodeRewriting.csproj", "{40E12900-F144-4685-969B-75EA7B7B2795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{A1466B17-A5BB-4F75-B446-6657C222A874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1466B17-A5BB-4F75-B446-6657C222A874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1466B17-A5BB-4F75-B446-6657C222A874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A878E3-0E42-4400-82AE-01DAC0A9B3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A878E3-0E42-4400-82AE-01DAC0A9B3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A878E3-0E42-4400-82AE-01DAC0A9B3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A878E3-0E42-4400-82AE-01DAC0A9B3D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40E12900-F144-4685-969B-75EA7B7B2795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E12900-F144-4685-969B-75EA7B7B2795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E12900-F144-4685-969B-75EA7B7B2795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E12900-F144-4685-969B-75EA7B7B2795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

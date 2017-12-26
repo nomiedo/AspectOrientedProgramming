@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ServiceHelper;
+using AOPCodeRewriting;
 
 namespace ArchClient
 {
@@ -44,6 +45,7 @@ namespace ArchClient
             }
         }
 
+        [LogAspect]
         private void Handle(object target)
         {
             lock (_sync)
@@ -108,6 +110,7 @@ namespace ArchClient
             }
         }
 
+        [LogAspect]
         private void GetNewSettings()
         {
             Console.WriteLine("Server file task runs...");
