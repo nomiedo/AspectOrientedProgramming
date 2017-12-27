@@ -18,17 +18,47 @@ namespace AOPCodeRewriting
             {
                 var arguments = args.Arguments;
                 var method = args.Method.Name;
-                var result = args.ReturnValue;
 
-                AddLog(arguments, method, result);
+                AddLog(arguments, method);
             }
         }
 
-        private void AddLog(Arguments arguments, string methodName, object result)
+        public override void OnSuccess(MethodExecutionArgs args)
+        {
+            lock (_sync)
+            {
+                var result = args.ReturnValue;
+
+                AddLogResult(result);
+            }
+        }
+
+        private void AddLog(Arguments arguments, string methodName)
         {
             string path = @"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt";
             var currentUtc = DateTime.UtcNow;
             var argumentValues = arguments.Select(argument => SerializeObject(argument)).ToList();
+
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+                using (StreamWriter tw = new StreamWriter(path))
+                {
+                    AddLogText(tw, currentUtc, argumentValues, methodName);
+                }
+            }
+            else if (File.Exists(path))
+            {
+                using (StreamWriter tw = File.AppendText(path))
+                {
+                    AddLogText(tw, currentUtc, argumentValues, methodName);
+                }
+            }
+        }
+
+        private void AddLogResult(object result)
+        {
+            string path = @"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt";
             var resultValue = SerializeObject(result);
 
             if (!File.Exists(path))
@@ -36,20 +66,21 @@ namespace AOPCodeRewriting
                 File.Create(path);
                 using (StreamWriter tw = new StreamWriter(path))
                 {
-                    AddLogText(tw, currentUtc, argumentValues, methodName, resultValue);
+                    AddLogTextResult(tw, resultValue);
+                    tw.Close();
                 }
             }
             else if (File.Exists(path))
             {
                 using (StreamWriter tw = File.AppendText(path))
                 {
-                    AddLogText(tw, currentUtc, argumentValues, methodName, resultValue);
+                    AddLogTextResult(tw, resultValue);
+                    tw.Close();
                 }
             }
         }
 
-        private void AddLogText(StreamWriter tw, DateTime currentUtc, List<string> argumentValues, string methodName,
-            string resultValue)
+        private void AddLogText(StreamWriter tw, DateTime currentUtc, List<string> argumentValues, string methodName)
         {
             tw.WriteLine($"Date Time: {currentUtc}");
             tw.WriteLine($"Method: {methodName}");
@@ -57,6 +88,11 @@ namespace AOPCodeRewriting
             {
                 tw.WriteLine($"Argument: {argumentValue}");
             }
+            
+        }
+
+        private void AddLogTextResult(StreamWriter tw, string resultValue)
+        {
             tw.WriteLine($"Result: {resultValue}");
             tw.Close();
         }

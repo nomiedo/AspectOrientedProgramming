@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ServiceHelper;
-using AOPCodeRewriting;
 
 namespace ArchClient
 {
@@ -13,7 +12,7 @@ namespace ArchClient
     {
         private readonly Timer timer;
         private readonly FileHelper fileHelper;
-        private readonly MessagingHelper messagingHelper;
+        private readonly MessagingHelperClient messagingHelper;
         private readonly Guid clientId;
 
 
@@ -25,7 +24,7 @@ namespace ArchClient
         {
             timer = new Timer(Handle);
             fileHelper = new FileHelper();
-            messagingHelper = new MessagingHelper();
+            messagingHelper = new MessagingHelperClient();
             clientId = Guid.NewGuid();
             TimerTimeout = 3000;
         }
@@ -45,7 +44,6 @@ namespace ArchClient
             }
         }
 
-        [LogAspect]
         private void Handle(object target)
         {
             lock (_sync)
@@ -110,7 +108,7 @@ namespace ArchClient
             }
         }
 
-        [LogAspect]
+       
         private void GetNewSettings()
         {
             Console.WriteLine("Server file task runs...");
