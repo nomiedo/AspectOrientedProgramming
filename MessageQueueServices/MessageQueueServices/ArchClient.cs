@@ -15,7 +15,6 @@ namespace ArchClient
         private readonly MessagingHelperClient messagingHelper;
         private readonly Guid clientId;
 
-
         private int TimerTimeout { get; set; }
 
         static object _sync = new object();

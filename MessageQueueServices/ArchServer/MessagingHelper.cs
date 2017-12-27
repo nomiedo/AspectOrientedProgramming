@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Messaging;
-using AOPCodeRewriting;
+using ServiceHelper;
+using MessageType = ServiceHelper.MessageType;
 
-namespace ServiceHelper
+namespace ArchServer
 {
-    public class MessagingHelperClient
+    public class MessagingHelper : IMessagingHelper
     {
-        [LogAspect]
         public MessageQueue GetQueue(string queueName)
         {
             MessageQueue queue;
@@ -21,7 +21,6 @@ namespace ServiceHelper
             return queue;
         }
 
-        [LogAspect]
         public List<SequanceMessage> CreateBatchFileMessages(List<byte[]> listBytes, string fileName, Guid clientId)
         {
             var sequenceId = Guid.NewGuid();
@@ -45,7 +44,6 @@ namespace ServiceHelper
             return result;
         }
 
-        [LogAspect]
         public void SendStatus(MessageQueue queue, string status, Guid clientId)
         {
             SequanceMessage message = new SequanceMessage
@@ -57,7 +55,6 @@ namespace ServiceHelper
             SendMessagesUsingTransactions(queue, new List<SequanceMessage> { message });
         }
 
-        [LogAspect]
         public void SendSettings(MessageQueue queue, int settingValue, Guid clientId)
         {
             SequanceMessage message = new SequanceMessage
@@ -69,7 +66,6 @@ namespace ServiceHelper
             SendMessagesUsingTransactions(queue, new List<SequanceMessage> { message });
         }
 
-        [LogAspect]
         public void SendMessagesUsingTransactions(MessageQueue queue, List<SequanceMessage> meassges)
         {
             using (var trans = new MessageQueueTransaction())
@@ -83,7 +79,6 @@ namespace ServiceHelper
             }
         }
 
-        [LogAspect]
         public List<SequanceMessage> ReceiveMessagesUsingEnumerator(MessageQueue queue)
         {
             List<SequanceMessage> result = new List<SequanceMessage>();
@@ -105,7 +100,6 @@ namespace ServiceHelper
             return result;
         }
 
-        [LogAspect]
         public List<SequanceMessage> ReceiveMessagesUsingPeek(MessageQueue queue, Guid clientId)
         {
             List<SequanceMessage> result = new List<SequanceMessage>();

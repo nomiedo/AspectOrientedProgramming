@@ -40,6 +40,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,8 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArchServer.cs" />
-    <Compile Include="DAL\IServerHandler.cs" />
-    <Compile Include="DAL\ServerHandler.cs" />
+    <Compile Include="FileHelper.cs" />
+    <Compile Include="IFileHelper.cs" />
+    <Compile Include="IMessagingHelper.cs" />
+    <Compile Include="MessagingHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

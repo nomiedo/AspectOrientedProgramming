@@ -11,18 +11,18 @@ namespace AOPDynamicProxy
 {
     public class LogInterceptor : IInterceptor
     {
-        static object _sync = new object();
+        //static object _sync = new object();
 
         public void Intercept(IInvocation invocation)
         {
-            lock (_sync)
-            {
-                var arguments = invocation.Arguments;
-                var method = invocation.Method.Name;
-                var result = invocation.ReturnValue;
+            invocation.Proceed();
+
+            var arguments = invocation.Arguments;
+            var method = invocation.Method.Name;
+            var result = invocation.ReturnValue;
 
                 AddLog(arguments, method, result);
-            }
+
         }
 
         private void AddLog(object[] arguments, string methodName, object result)

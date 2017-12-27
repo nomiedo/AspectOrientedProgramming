@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using ServiceHelper;
+using System.IO.Compression;
 
-namespace ServiceHelper
+namespace ArchServer
 {
-    public class FileHelper
+    public class FileHelper : IFileHelper
     {
         private int messageSize = (1024 * 4);
         private Regex re = new Regex(@"(^IMG_[0-9][0-9][0-9].[jpg])\w+");
