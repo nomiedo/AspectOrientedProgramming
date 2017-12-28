@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using AOPDynamicProxy;
+using Autofac;
 using ServiceHelper;
 
 namespace ArchServer
@@ -24,13 +25,13 @@ namespace ArchServer
             //fileHelper = new FileHelper();
             // messagingHelper = new MessagingHelper();
             var generator = new ProxyGenerator();
-            messagingHelper = generator.CreateInterfaceProxyWithTarget<IMessagingHelper>(new MessagingHelper(), new LogInterceptor());
+            messagingHelper = Program.Container.Resolve<IMessagingHelper>();
             fileHelper = generator.CreateInterfaceProxyWithTarget<IFileHelper>(new FileHelper(), new LogInterceptor());
         }
 
         public bool Start()
         {
-            statusTimer.Change(0, 1000000);
+            statusTimer.Change(0, 1000);
             return true;
         }
 

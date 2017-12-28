@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Messaging;
 using ServiceHelper;
 using MessageType = ServiceHelper.MessageType;
+using Autofac;
 
 namespace ArchServer
 {

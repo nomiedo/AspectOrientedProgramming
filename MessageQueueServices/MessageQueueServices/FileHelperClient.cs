@@ -10,7 +10,7 @@ using ServiceHelper;
 
 namespace ArchClient
 {
-    public class FileHelper
+    public class FileHelperClient
     {
         private int messageSize = (1024 * 4);
         private Regex re = new Regex(@"(^IMG_[0-9][0-9][0-9].[jpg])\w+");
@@ -132,7 +132,6 @@ namespace ArchClient
 
         #region Private methods
 
-        [LogAspect]
         private byte[] Combine(params byte[][] arrays)
         {
             byte[] rv = new byte[arrays.Sum(a => a.Length)];
@@ -145,7 +144,7 @@ namespace ArchClient
             return rv;
         }
 
-        [LogAspect]
+
         private int getIndexofNumber(string cell)
         {
             int indexofNum = -1;
@@ -160,7 +159,6 @@ namespace ArchClient
             return indexofNum;
         }
 
-        [LogAspect]
         private List<byte[]> SplitByteArray(byte[] source, int size)
         {
             List<byte[]> result = new List<byte[]>();
@@ -182,7 +180,6 @@ namespace ArchClient
             return result;
         }
 
-        [LogAspect]
         private void DoSeveralAttempts(
             Action action,
             TimeSpan retryInterval,
@@ -195,7 +192,6 @@ namespace ArchClient
             }, retryInterval, maxAttemptCount);
         }
 
-        [LogAspect]
         private T Do<T>(
             Func<T> action,
             TimeSpan retryInterval,
@@ -222,7 +218,5 @@ namespace ArchClient
         }
 
         #endregion
-
-
     }
 }

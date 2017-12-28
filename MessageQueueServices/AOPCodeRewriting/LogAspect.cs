@@ -10,11 +10,17 @@ namespace AOPCodeRewriting
     [Serializable]
     public class LogAspect : OnMethodBoundaryAspect
     {
-        static object _sync = new object();
+        static object _sync2 = new object();
+        private const string path = @"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt";
 
         public override void OnEntry(MethodExecutionArgs args)
         {
-            lock (_sync)
+            if (!File.Exists(@"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt"))
+            {
+                File.Create(@"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt");
+            }
+
+            lock (_sync2)
             {
                 var arguments = args.Arguments;
                 var method = args.Method.Name;
@@ -25,7 +31,7 @@ namespace AOPCodeRewriting
 
         public override void OnSuccess(MethodExecutionArgs args)
         {
-            lock (_sync)
+            lock (_sync2)
             {
                 var result = args.ReturnValue;
 
@@ -34,67 +40,48 @@ namespace AOPCodeRewriting
         }
 
         private void AddLog(Arguments arguments, string methodName)
-        {
-            string path = @"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt";
+        {              
             var currentUtc = DateTime.UtcNow;
             var argumentValues = arguments.Select(argument => SerializeObject(argument)).ToList();
 
-            if (!File.Exists(path))
+            if (!File.Exists(path)) return;
+
+            using (StreamWriter tw = File.AppendText(path))
             {
-                File.Create(path);
-                using (StreamWriter tw = new StreamWriter(path))
-                {
-                    AddLogText(tw, currentUtc, argumentValues, methodName);
-                }
-            }
-            else if (File.Exists(path))
-            {
-                using (StreamWriter tw = File.AppendText(path))
-                {
-                    AddLogText(tw, currentUtc, argumentValues, methodName);
-                }
+                AddLogText(tw, currentUtc, argumentValues, methodName);
             }
         }
 
         private void AddLogResult(object result)
         {
-            string path = @"d:\TESTPRO\AspectOrientedProgramming\MessageQueueServices\TestFolder\ClientLog.txt";
             var resultValue = SerializeObject(result);
 
-            if (!File.Exists(path))
+            if (!File.Exists(path)) return;
+
+            using (StreamWriter tw = File.AppendText(path))
             {
-                File.Create(path);
-                using (StreamWriter tw = new StreamWriter(path))
-                {
-                    AddLogTextResult(tw, resultValue);
-                    tw.Close();
-                }
-            }
-            else if (File.Exists(path))
-            {
-                using (StreamWriter tw = File.AppendText(path))
-                {
-                    AddLogTextResult(tw, resultValue);
-                    tw.Close();
-                }
+                AddLogTextResult(tw, resultValue);
             }
         }
 
         private void AddLogText(StreamWriter tw, DateTime currentUtc, List<string> argumentValues, string methodName)
         {
-            tw.WriteLine($"Date Time: {currentUtc}");
-            tw.WriteLine($"Method: {methodName}");
-            foreach (var argumentValue in argumentValues)
-            {
-                tw.WriteLine($"Argument: {argumentValue}");
-            }
-            
+
+                tw.WriteLine($"Date Time: {currentUtc}");
+                tw.WriteLine($"Method: {methodName}");
+                foreach (var argumentValue in argumentValues)
+                {
+                    tw.WriteLine($"Argument: {argumentValue}");
+                }
+                tw.Close();
         }
 
         private void AddLogTextResult(StreamWriter tw, string resultValue)
         {
-            tw.WriteLine($"Result: {resultValue}");
-            tw.Close();
+
+                tw.WriteLine($"Result: {resultValue}");
+                tw.Close();
+
         }
 
 

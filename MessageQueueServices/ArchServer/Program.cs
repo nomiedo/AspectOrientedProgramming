@@ -1,11 +1,30 @@
-﻿using Topshelf;
+﻿using System;
+using AOPDynamicProxy;
+using Topshelf;
+using Autofac;
+using Castle.DynamicProxy;
+
 
 namespace ArchServer
 {
+
     class Program
     {
+        public static IContainer Container { get; set; }
         static void Main(string[] args)
         {
+            var generator = new ProxyGenerator();
+
+            var builder = new ContainerBuilder();
+
+            builder.Register(c =>
+                    generator.CreateInterfaceProxyWithTarget<IMessagingHelper>(new MessagingHelper(),
+                        new LogInterceptor()))
+                .As<IMessagingHelper>();
+            Container = builder.Build();
+
+            //var willBeIntercepted = Container.Resolve<IMessagingHelper>();
+           
             HostFactory.Run(x =>
             {
                 x.Service<ArchServer>(conf =>

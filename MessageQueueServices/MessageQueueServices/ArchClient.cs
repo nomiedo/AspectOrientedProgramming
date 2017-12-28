@@ -11,7 +11,7 @@ namespace ArchClient
     class ArchClient
     {
         private readonly Timer timer;
-        private readonly FileHelper fileHelper;
+        private readonly FileHelperClient fileHelper;
         private readonly MessagingHelperClient messagingHelper;
         private readonly Guid clientId;
 
@@ -22,10 +22,10 @@ namespace ArchClient
         public ArchClient()
         {
             timer = new Timer(Handle);
-            fileHelper = new FileHelper();
+            fileHelper = new FileHelperClient();
             messagingHelper = new MessagingHelperClient();
             clientId = Guid.NewGuid();
-            TimerTimeout = 3000;
+            TimerTimeout = 3000000;
         }
 
         public bool Start()
